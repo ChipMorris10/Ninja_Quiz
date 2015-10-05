@@ -1,59 +1,89 @@
 // Welcome the user
 alert("Welcome to Quiz Ninja");
 
-var quiz = [
-    ["What is Superman's real name?", "Clarke Kent"],
-    ["What is Wonderwoman's real name?", "Dianna Prince"],
-    ["What is Batman's real name?", "Bruce Wayne"]
-    ];
 
-var score = 0;
-
-play(quiz);
-
-function play(quiz) {
-    // main game loop
-    for (var i=0, question, answer, max=quiz.length; i<max; i++) {
-        question = quiz[i][0];
-        answer = ask(question);
-        check(answer);
-    }
-    // end of main game loop
-    gameOver();
-
-    function ask(question) {
-        return prompt(question); // quiz[i][0] is the ith questions
-    }
-
-    function check(answer) {
-        if (answer === quiz[i][1]) {   // quiz[i][1] is the ith answer
-            alert("Correct!");
-            // increase score by 1
-            score++;
-        } else {
-            alert("Wrong!");
-        }
-    }
-
-    function gameOver() {
-        // inform the player that the game has finished and them them how many points they have scored
-        alert("Game Over, you scored " + score + " points");
+// view functions//
+// 1st parameter is the element that's to be updated
+// 2nd parameter is for the content that is to be updated with
+// 3rd parameter is creating a class to the content
+// class is a reserved keyword, so I'm using 'klass'
+// 1st line of the function checks to see if the element already has a child, and assigns it a var name. If it doesn't, it creates one
+// textContent is set to the conten provided as an argument and added to the element with appendChild
+function update(element, content, klass) {
+    var p = element.firstChild || document.createElement("p");
+    p.textContent = content;
+    element.appendChild(p);
+    if (klass) {
+        p.className = klass;
     }
 }
 
 
-// for (var i = 0, max=quiz.length; i < max; i ++) {
-//     // get answer from user
-//     var answer = prompt(quiz[i] [0]);    // quiz[i] [0] is the ith question
+// dom references //
+// create the questions, update the score, provide feedback on answer
+var $question = document.getElementById('question');
+var $score = document.getElementById('score');
+var $feedback = document.getElementById('feedback');
 
-//     // check if answer is correct
-//     if (answer === quiz[i] [1]) {    // quiz[i] [1] is the ith answer
-//         alert("Correct");
-//         // increase score by 1
-//         score++;
-//     } else {
-//         alert("Wrong");
-//     }
-// }
+
+// create quiz questions
+quiz = {
+    "name": "Super Hero Name Quiz",
+    "description": "How many super heroes can you name?",
+    "question": "What is the real name of ",
+    "questions":[
+    { "question" : "Superman", "answer" : "Clarke Kent" },
+    { "question" : "Batman", "answer" : "Bruce Wayne" },
+    { "question" : "Wonder Woman", "answer" : "Dianna Prince" },
+    { "question" : "Spiderman", "answer" : "Peter Parker" },
+    { "question" : "Chip Morris", "answer" : "Robert Morris" }
+    ]
+};
+
+// initialize the score, then update score in header
+var score = 0;
+update($score,score);
+
+play(quiz);
+
+
+function play(quiz) {
+    // main game loop
+    for (var i=0, question, answer, max=quiz.questions.length; i<max; i++) {
+        question = quiz.questions[i].question;
+        answer = ask(question);
+        check(answer);
+    }
+
+
+// end of main game loop
+gameOver();
+
+
+// display the question in HTML
+function ask(question) {
+    update($question,quiz.question + question);
+    return prompt("Enter your answer:");
+}
+
+// the right and wrong arguments are used for css styling
+function check(answer) {
+    if (answer === quiz.questions[i].answer) {
+        update($feedback, "You are correct!", "right");
+        // increase score by 1
+        score++;
+        update($score, score)
+    } else {
+        update($feedback, "Sorry, that is wrong.", "wrong");
+    }
+}
+
+
+// inform player the game is over and how many points they scored
+function gameOver() {
+    update($question, "Game Over. You scored " + score + " points.");
+    }
+}
+
 
 alert("Game over. You scored " + score + " points");

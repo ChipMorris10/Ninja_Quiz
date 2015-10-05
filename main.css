@@ -9,3 +9,27 @@ header {
     color: #C00;
     text-transform: uppercase;
     text-align: center;
+}
+
+section p {
+  font: bold 24px/150% Aiial, Helvetica, sans-serif;
+  background: #ccc;
+  border: #999 2px solid;
+  color: #666;
+  text-align: center;
+  padding: 10px;
+  margin: 10px;
+  width: 300px;
+}
+
+.right {
+  background: #0c0;
+  border: #090 2px solid;
+  color: #060;
+}
+
+.wrong {
+  background: #C00;
+  border: #900 2px solid;
+  color:  #600;
+}
